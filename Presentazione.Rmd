@@ -1,0 +1,108 @@
+---
+title: "Terremoti vicino alle isole Fijii"
+author: "Ausilia Ferrentino"
+date: "2024-03-13"
+output:
+  ioslides_presentation: default
+  slidy_presentation: default
+widescreen: true
+logo: img/Logo.png
+# css: style.css
+---
+<style>
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
+
+```{css, echo=FALSE}
+pre {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+pre[class] {
+  max-height: 500px;
+}
+
+.scroll-100 {
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+ 
+# Introduzione
+
+## Descrizione del dataset {.build}
+
+Il dataset è formato da **1000 osservazioni** di 5 variabili: latitudine, longitudine, prfondità, magnitudine e numero di stazioni di riferimento da cui abbiamo rilevato le ossrvazioni. Il dataset rileva 1000 eventi sismici di **MB \> 1.0** avvenuti vicino Fiji intorno al 1964.
+
+<div>
+<div style="float: left; width: 50%; text-align: right;">
+Questo è uno dei set di dati del progetto <span style="color:blue">Harvard PRIM-H(HTML)</span>. A loro volta lo hanno ottenuto dal <span style="color:blue">Dr. John Woodhouse</span>, Dipartimento di Geofisica, Università di Harvard. 
+</div>
+
+<div>
+<div style="float: right; width: 50%; text-align: center;">
+<font size="2">Università di Harvard</font>
+<img width="80%" height="30%" src="img/Harvad.jpeg">
+</div>
+
+## Localizzazione della scossa
+```{r, fig.align="center", out.width="80%"}
+knitr::include_graphics(path = "img/magnitudo.jpg")
+```
+<font size="2">La città più grande e più vicina dove il terremoto potrebbe essere stato avvertito è Nukalofa, la capitale della Tonga</font>
+
+## Grafico interattivo
+```{r plot-interactive, echo=FALSE, eval=knitr::is_html_output()}
+library(ggplot2)
+grafico = ggplot(quakes, 
+       aes(y=mag,x=depth)) + geom_point() + 
+  theme_bw() + theme(legend.position = "none") 
+plotly::ggplotly(grafico)
+
+```
+
+## Codice App
+```{r, fig.align="center", out.width="80%", class.output="scroll-100", eval=FALSE, echo=TRUE}
+shiny::shinyApp(
+ ui = fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "dataset", # nome dell'input per il server
+                  label = "Choose a dataset:", # nome dell'input per lo user
+                  choices = c("rock", "pressure")) # opzioni
+    ),
+
+    mainPanel(
+      plotOutput( #qui voglio un grafico 
+        "graph"   
+      )
+    ) 
+  )
+),
+
+server = function(input, output){
+  output$graph <- renderPlot({
+    if(input$dataset == "rock"){ 
+      data <- rock
+    } else {
+      data <- pressure
+    } 
+    plot(data[, c(1:2)])
+  })
+}, 
+options = list(height = 300)
+)
+```
+
+
+## 
+```{r pressure}
+plot(pressure)
+```
+

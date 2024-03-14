@@ -1,0 +1,14 @@
+
+<u>Underlined I valori della scala Mercalli</u>
+
+
+
+```{r, fig.cap = "Caption", fig.align="center", out.width="50%"}
+knitr::include_graphics(path = "img/magnitudo.jpg")
+
+
+![Isole Fiji](img/Isole.jpg)
+
+
+
+

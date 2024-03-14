@@ -1,0 +1,100 @@
+---
+title: "Quarto document"
+author: "Ausilia Ferrentino"
+format: 
+ html:
+  toc: true
+  toc-title: Cosa vuoi vedere?
+  toc-location: right
+  toc-depth: 3
+execute: 
+  eval: true
+  echo: true
+  warning: false
+lang: it
+code-tools: 
+      source: true
+      toggle: false
+      caption: codice del documento
+theme: cosmo
+---
+##
+Dove vorrei essere:
+```{r}
+#| fig-cap: "Isole Fiji"
+#| fig-cap-location: top
+#| out-width: 50%
+#| label: fig-prima
+#| fig-align: left
+#| echo: false
+knitr::include_graphics("img/Isole.jpg")
+```
+
+## 
+Dove sono in realtà: @fig-uni
+```{r}
+#| fig-cap: "UniPD"
+#| fig-cap-location: top
+#| out-width: 50%
+#| label: fig-uni
+#| fig-align: left
+#| echo: false
+knitr::include_graphics("img/unipd.jpeg")
+```
+
+::: {.grid}
+
+::: {.g-col-4}
+
+La scossa sismica nell’Oceano Pacifico ha fatto scattare l’allerta tsunami per tutte le isole della zona con l’evacuazione dei cittadini dalla costa ma dopo ore di apprensione l’allerta è rientrata. @fig-terremoto
+
+:::
+
+::: {.g-col-4}
+
+Un sisma molto forte di magnitudo 6.7 si è verificato nel mare South Pacific Ocean a 189 km di distanza da Figi la mattina presto del martedì, 29 dic 1964 alle 05:16 ora locale (GMT +13). Il terremoto ha avuto una profondità di 589 km.
+
+:::
+
+::: {.g-col-4}
+
+```{r}
+#| fig-cap: epicentro
+#| fig-cap-location: margin
+#| out-width: 1000%
+#| label: fig-terremoto
+#| fig-align: right
+#| echo: false
+knitr::include_graphics("img/magnitudo.jpg")
+```
+
+:::
+
+:::
+
+Le scale utilizzate per stimare la magnitudo dei terrimoti sono davvero tantissime, di esse la scala Ritcher è la più usata. @fig-richter
+
+::: {.panel-tabset}
+
+## Scala Mercalli
+La scala Mercalli è la più utilizzata. Si tratta di una scala di valutazione dell'intensità di un terremoto eseguita osservando i danni che esso produce sulle persone, cose e manufatti.Questa valutazione non richiede l'utilizzo di strumenti di misurazione e per la sua caratteristica descrittiva può essere applicata anche alla classificazione di terremoti avvenuti in tempi storici, di cui sia rimasta una descrizione scritta. La scala Mercalli ha 12 gradi di intensità: il grado più basso della scala MCS viene attribuito a una scossa rilevabile solamente con strumentazione geofisica, salendo nella scala sono introdotte le osservazioni sulla percezione umana della scossa e quindi quelle sui manufatti di facile rinvenimento nelle aree abitate e a partire dal VI grado dai danni alle abitazioni fino ad arrivare al grado XII indicativo di distruzione totale
+
+##  Scala EMS-98
+La scala macrosismica europea (EMS) è utilizzata per la valutazione dell'intensità sismica nelle nazioni d'Europa e inoltre usata in altri continenti. Diffusa nel 1998 come aggiornamento della versione di prova del 1992, la scala viene indicata come EMS-98.
+
+La storia della EMS inizia nel 1988 quando la Commissione sismologica europea decise di rivedere ed aggiornare la scala di Medvedev-Sponheuer-Karnik (MSK-64), che fu usata nella sua forma base in Europa per quasi un quarto di secolo. Dopo più di cinque anni di intensa ricerca e sviluppo ed un periodo di test di quattro anni, nacque la nuova scala. Nel 1996 la XXV Assemblea generale della ESC a Reykjavík raccomandò fermamente l'adozione della nuova scala da parte delle nazioni membri della Commissione sismologica europea.
+
+## Scala Richter 
+```{r}
+#| fig-cap: "Valori della scala"
+#| fig-cap-location: top
+#| out-width: 50%
+#| label: fig-richter
+#| fig-align: center
+#| echo: false
+knitr::include_graphics("img/richter.jpg")
+```
+
+:::
+
+

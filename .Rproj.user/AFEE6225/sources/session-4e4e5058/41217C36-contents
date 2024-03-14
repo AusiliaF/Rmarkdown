@@ -1,0 +1,172 @@
+---
+title: "Terremoti vicino alle isole Fijii"
+author: "Ausilia Ferrentino"
+date: "Università di Padova"
+output:
+  pdf_document:
+    number_sections: true
+  html_document:
+    df_print: paged
+subtitle: 'Date set: quakes'
+toc: true
+toc_depth: 3
+inestretch: 1.5
+geometry: margin=0.5in
+lang: it
+bibliography: bibliografia/biblio.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#data(quakes)
+#dati = quakes
+load('quakes.RData')
+
+hook_output <- knitr::knit_hooks$get("output")
+ 
+knitr::knit_hooks$set(output = function(x, options) {
+     if (!is.null(n <- options$out.lines)) {
+         x <- xfun::split_lines(x)
+         if (length(x) > n) {
+             # truncate the output
+             x <- c(head(x, n), "....\n")
+         }
+         x <- paste(x, collapse = "\n")
+     }
+     hook_output(x, options)
+})
+
+```
+
+```{r, echo=FALSE, comment="", out.lines=4}
+(head(dati))
+
+```
+
+```{r, echo=FALSE, comment="-"}
+summary(dati)
+
+```
+
+```{r, echo=FALSE, results='hide'}
+dati$y = quakes$mag
+dati$x = quakes$depth
+summary(dati$x)
+summary(dati$y)
+
+```
+
+```{r, echo=FALSE, out.height= '30%'}
+plot(dati$y ~ dati$x)
+     
+```
+
+```{r, echo=FALSE, eval=FALSE}
+plot(dati$y ~ dati$x)
+
+```
+
+```{r, comment=" ", out.lines=10}
+dati
+```
+
+```{r, results='asis', message=FALSE}
+library(stargazer)
+stargazer(quakes, type="latex", summary = TRUE, 
+           title= "Tabella di summary del dataset", digits = 3, header=FALSE)
+```
+
+```{r, echo=FALSE, eval=FALSE, message=FALSE}
+m = lm(y ~ x, data = dati)
+stargazer(m, type = "latex", summary = TRUE, title = "Risultati del modello", digits = 3,
+    header = FALSE)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+ m0 = lm(x ~ 1, data = dati)
+ m1 = lm(x ~ y, data = dati)
+ stargazer(m0, m1, type = "latex", title = "Model comparison", digits = 3, intercept.top = TRUE,
+     intercept.bottom = FALSE, header = FALSE)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+m = lm(y ~ x, data = dati)
+```
+
+```{r, echo=FALSE, results='hide'}
+dati$y = quakes$mag
+mean(dati$y) #media
+dati$y[1]
+```
+
+```{r, echo=FALSE, results='hide'}
+(dati$y[1]-mean(dati$y))/sd(dati$y) #deviazione standard
+```
+
+##inserisci formula matematica
+
+# \LARGE Cap1\normalsize
+
+Nel presente capitolo verranno esposti i seguenti argomenti nel seguente ordine:
+
+1.  *Introduzione;*
+
+    -   Spiegazione generica degli eventi sismici;
+    -   Scale di misurazione
+
+2.  *Analisi del dataset;*
+
+    -   Varibili prese in considerazione
+    -   Analisi statistiche
+    -   Discussione ed interpretazione dei risultati
+
+## ***Introduzione***
+
+Il dataset è formato da **1000 osservazioni** di 5 variabili: latitudine, longitudine, prfondità, magnitudine e numero di stazioni di riferimento da cui abbiamo rilevato le ossrvazioni. Il dataset rileva 1000 eventi sismici di **MB \> 1.0** [^1] avvenuti vicino Fiji intorno al 1964. *[@panzaterremoti]*
+
+[^1]: La magnitudo momento, che è più rappresentativa della grandezza del terremoto o la magnitudo Mb, ottenuta dalle onde di volume e calcolata per i terremoti che si sono verificati a più di 2000 chilometri di distanza dalla stazione sismica.
+
+Ci sono due piani chiave di attività sismica. Uno è un'importante giunzione della placca; l'altra è la fossa delle Tonga, al largo della Nuova Zelanda. Questi dati costituiscono un sottocampione di un set di dati più ampio contenente 5000 osservazioni.
+
+Questo è uno dei set di dati del progetto \textcolor{blue}{Harvard PRIM-H}\normalcolor. A loro volta lo hanno ottenuto dal \textcolor{blue}{Dr. John Woodhouse}\normalcolor, Dipartimento di Geofisica, Università di Harvard.
+
+```{r cars}
+summary(cars)
+```
+
+## ***Cos'è accaduto?***
+
+> *La scossa sismica nell’Oceano Pacifico ha fatto scattare l’allerta tsunami per tutte le isole della zona con l’evacuazione dei cittadini dalla costa ma dopo ore di apprensione l’allerta è rientrata.*
+
+Un sisma molto forte di magnitudo 6.7 si è verificato nel mare South Pacific Ocean a 189 km di distanza da Figi la mattina presto del martedì, 29 dic 1964 alle 05:16 ora locale (GMT +13). Il terremoto ha avuto una **profondità di 589 km**.
+
+
+```{r, fig.cap = "", fig.align="left", out.width="30%", fig}
+knitr::include_graphics(path = "img/magnitudo.jpg")
+```
+
+La città più grande e più vicina dove il terremoto potrebbe essere stato avvertito è Nukalofa, la capitale della Tonga con 22,000 abitanti, a 479 km al a est dall'epicentro. Probabilmente le persone li hanno sperimentato tremori di **intensità medio/debole**.*[@meszaros1974some]*
+
+Le scale comunemente utilizzate sono le seguenti:
+
+-   Scala Mercalli (effetti macrosismici storici);
+-   Scala EMS-98 (effetti macrosismici);
+-   Magnitudo Richter (o Local Magnitude ML);
+-   Magnitudo di Momento Sismico (Mw);
+-   Body-Wave Magnitude (mb);
+-   Surface-Wave Magnitude (Ms)
+
+La scala Mercalli è la più utilizzata. Si tratta di una scala di valutazione dell'intensità di un terremoto eseguita osservando i danni che esso produce sulle persone, cose e manufatti.Questa valutazione non richiede l'utilizzo di strumenti di misurazione e per la sua caratteristica descrittiva può essere applicata anche alla classificazione di terremoti avvenuti in tempi storici, di cui sia rimasta una descrizione scritta. La scala Mercalli ha 12 gradi di intensità: il grado più basso della scala MCS viene attribuito a una scossa rilevabile solamente con strumentazione geofisica, salendo nella scala sono introdotte le osservazioni sulla percezione umana della scossa e quindi quelle sui manufatti di facile rinvenimento nelle aree abitate e a partire dal VI grado dai danni alle abitazioni fino ad arrivare al grado XII indicativo di distruzione totale [^2].Tre sono le zone maggiormente colpite dai terremoti:
+
+[^2]: [**I valori della scala Mercalli**](https://it.wikipedia.org/wiki/Scala_Mercalli) sono scritti con numeri romani e vanno da I a XII.
+
+1.  Indonesia;
+2.  Arco Pacifico Settentrionale tra cui: Giappone, Kurili, Kamchatka, Aleutine e Cascadia;
+3.  Ande.
+```{r, fig.cap = "Isole Fiji", fig.align="center", out.width="50%"}
+knitr::include_graphics(path = "img/Isole.jpg")
+```
+
+\clearpage 
+
+# References

@@ -1,0 +1,53 @@
+---
+title: "Documento grafici"
+author: "Ausilia Ferrentino"
+date: "2024-03-13"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## R File statico
+```{r plot-static, echo=FALSE, eval=knitr::is_latex_output()}
+library(ggplot2)
+grafico = ggplot(quakes, 
+       aes(y=mag,x=depth)) + geom_point() + 
+  theme_bw() + theme(legend.position = "none") 
+grafico
+
+```
+
+
+```{r cars}
+summary(cars)
+```
+
+## File interattivo
+```{r plot-interactive, echo=FALSE, eval=knitr::is_html_output()}
+library(ggplot2)
+grafico = ggplot(quakes, 
+       aes(y=mag,x=depth)) + geom_point() + 
+  theme_bw() + theme(legend.position = "none") 
+plotly::ggplotly(grafico)
+
+```
+
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+## Testo a caso colorato
+
+
+Il prato è verde, più verde, più verde
+Sempre più verde (sempre più verde)
+Il cielo è blu, blu, blu
+Molto più blu (ancora più blu)
+
